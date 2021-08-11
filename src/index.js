@@ -47,10 +47,6 @@ ipcMain.handle('dark-mode:toggle', () => {
 })
 
 ipcMain.handle('browserWindow', (event, url, h, w, r, f, ) => {
-  const windows = BrowserWindow.getAllWindows()
-  if (windows.length > 1) {
-    windows[0].destroy()
-  }
   return createBrowserWindow(url, h, w, r, f, )
 })
 
