@@ -1,7 +1,7 @@
 {
   "name": "yt-downloader",
   "version": "0.0.1",
-  "description": "My Electron application description",
+  "description": "YT Downloader build with electron",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
