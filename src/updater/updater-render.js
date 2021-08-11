@@ -28,7 +28,7 @@ ipcRenderer.on('update_available', (a, info) => {
 });
 
 ipcRenderer.on('update_progress', (a, info, progress) => {
-  document.getElementById('updater-info').innerText = parseInt(progress) ? `🔰 Update ${info.version} downloading: ${Math.round(progress.percent)}%` : `💮 Update ${info.version} initializing...`
+  document.getElementById('updater-info').innerText = progress > 0 ? `🔰 Update ${info.version} downloading: ${Math.round(progress.percent)}%` : `💮 Update ${info.version} initializing...`
   document.getElementById('updater-img').src='../images/update-download.png';
   document.getElementById('download').classList.add('hidden');
 });

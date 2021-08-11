@@ -10,5 +10,5 @@ document.getElementById('versions-list').addEventListener('click', () => {
 })
 
 document.getElementById('update-btn').addEventListener('click', () => {
-  ipcRenderer.invoke('browserWindow', path.join(__dirname, '../', 'updater/','updater.html'), 500, 600, false, false)
+  ipcRenderer.invoke('browserWindow', path.join(__dirname, '../', 'updater/','updater.html'), 500, 620, false, false)
 })
