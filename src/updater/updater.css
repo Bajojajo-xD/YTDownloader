@@ -10,9 +10,10 @@
   .glow-on-hover:after {
     background: black;
   }
-  .update-btn {
-    color: white;
-    background-color: rgba(173, 4, 4, 0.527);
+  .btn {
+    color: rgb(207, 222, 231);
+    background: rgb(10, 6, 71);
+    border-color: rgb(80, 8, 8);
   }
 }
 
@@ -28,10 +29,45 @@
   .glow-on-hover:after {
     background: #fff;
   }
-  .update-btn {
-    color: red;
-    background-color: rgba(255, 255, 255, 0.685);
+  .btn {
+    color: rgb(0, 0, 0);
+    background: rgb(57, 133, 74);
+    border-color: rgb(20, 32, 141);
   }
+}
+
+.hidden {
+  background-color: rgba(255, 255, 255, 0.11);
+  border-width: 2px;
+  border-color: #111;
+  color: #111;
+  cursor: progress;
+  -webkit-app-region: drag;
+}
+
+.btn {
+  -webkit-app-region: no-drag;
+  cursor: pointer;
+  border-width: 2px;
+
+}
+
+#restart-btn {
+  float: right;
+  margin-right: 40px;
+  border-radius: 15px;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+}
+
+#download-btn {
+  float: left;
+  margin-left: 40px;
+  border-radius: 15px;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
 }
 
 body {
@@ -49,7 +85,7 @@ body {
 }
 
 #exit:hover {
-  width: 45px;
+  transform: rotate(-30deg);
 }
 
 #updater-img {
@@ -69,13 +105,6 @@ body {
   text-align: center;
 }
 
-.btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  -webkit-app-region: no-drag;
-}
-
 .updater-text {
   text-align: center;
   font-weight: bold;
@@ -90,12 +119,6 @@ table {
 td {
   text-align: center;
 }
-
-.hidden {
-  display: none;
-}
-
-
 
 .glow-on-hover {
   width: 220px;

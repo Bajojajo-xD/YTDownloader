@@ -19,7 +19,7 @@
   width: 30px;
   display: block;
   cursor: pointer;
-  transition: transform 0.5s;
+  transition: all 1s;
 }
 
 #settings:hover {
@@ -32,4 +32,63 @@
   font-family: sans-serif;
   text-align: center;
   margin-top: -20px;
+}
+
+div[class*=box] {
+  height: 33.33%;
+  width: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 
+========================
+      BUTTON YT
+========================
+*/
+
+@media (prefers-color-scheme: light) {
+  .btn-yt {
+    background: white;
+    color: black;
+    border: 2px solid black;
+    box-shadow: 5px 5px 0 black,
+    -5px -5px 0 black,
+		-5px 5px 0 black,
+		5px -5px 0 black;
+  }
+  .btn-yt:hover {
+    box-shadow: 20px 5px 0 black, -20px -5px 0 black;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-yt {
+    background: black;
+    color: white;
+    border: 2px solid rgb(17, 5, 73);
+    box-shadow: 5px 5px 0 rgb(17, 5, 73),
+    -5px -5px 0 rgb(17, 5, 73),
+		-5px 5px 0 rgb(17, 5, 73),
+		5px -5px 0 rgb(17, 5, 73);
+  }
+  .btn-yt:hover {
+    box-shadow: 20px 5px 0 rgb(17, 5, 73), -20px -5px 0 rgb(17, 5, 73);
+  }
+}
+
+.btn-yt {
+	-webkit-tap-highlight-color: transparent;
+  border-radius: 15px;
+	cursor: pointer;
+  height: 50px;
+  width: 200px;
+	font-size: 20px;
+	font-weight: bold;
+	transition: 500ms ease-in-out;
+}
+
+.btn-yt:focus {
+	outline: none;
 }

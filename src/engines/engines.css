@@ -55,12 +55,12 @@ table {
   width: 30px;
   display: block;
   cursor: pointer;
-  transition: width 1s;
+  transition: all 1s;
   -webkit-app-region: no-drag;
 }
 
 #exit:hover {
-  width: 45px;
+  transform: rotate(-30deg);
 }
 
 .glow-on-hover {
