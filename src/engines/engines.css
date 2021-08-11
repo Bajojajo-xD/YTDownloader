@@ -26,13 +26,16 @@
   }
 }
 
+body {
+  -webkit-app-region: drag;
+}
+
 td {
   text-align: center;
 }
 
 table {
   width: 100%;
-  margin-top: -20px;
   -webkit-app-region: drag;
 }
 
@@ -51,7 +54,6 @@ table {
 #exit {
   margin-right: 5px;
   margin-left: auto;
-  margin-bottom: 5px;
   width: 30px;
   display: block;
   cursor: pointer;

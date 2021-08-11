@@ -6,7 +6,7 @@ function toggledarkmode() {
 }
 
 function versionslist() {
-  ipcRenderer.invoke('browserWindow', path.join(__dirname, '../', 'engines/','engines.html'), 545, 600, false, false)
+  ipcRenderer.invoke('browserWindow', path.join(__dirname, '../', 'engines/','engines.html'), 560, 600, false, false)
 }
 
 function updatebtn() {

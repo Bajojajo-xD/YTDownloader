@@ -49,7 +49,7 @@
   -webkit-app-region: no-drag;
   cursor: pointer;
   border-width: 2px;
-
+  border-style: solid;
 }
 
 #restart-btn {

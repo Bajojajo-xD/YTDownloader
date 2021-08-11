@@ -4,11 +4,21 @@
   body { 
     background:  #333; color: white; 
   }
+  #yt-url {
+    background-color: black;
+    border-color: rgb(116, 6, 6);
+    color: white;
+  }
 }
 
 @media (prefers-color-scheme: light) {
   body { 
     background:  #ddd; color: black; 
+  }
+  #yt-url {
+    background-color: white;
+    border-color: rgb(21, 172, 16);
+    color: black;
   }
 }
 
@@ -32,6 +42,13 @@
   font-family: sans-serif;
   text-align: center;
   margin-top: -20px;
+  margin-bottom: 0px;
+}
+
+#ifvalid {
+  font-size: 200%;
+  font-family: sans-serif;
+  text-align: center;
 }
 
 div[class*=box] {
@@ -91,4 +108,24 @@ div[class*=box] {
 
 .btn-yt:focus {
 	outline: none;
+}
+
+
+
+
+#valid-yt-url {
+  height: 40px;
+  margin-right: 10px;
+  float: right;;
+}
+
+#yt-url {
+  width: 70%;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 15px;
+  border-width: 2px;
+  border-style: solid;
+  padding-left: 15px;
+  padding-right: 15px;
 }
