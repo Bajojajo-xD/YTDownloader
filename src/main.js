@@ -58,7 +58,7 @@ function createBrowserWindow(url, h, w, r, f, whatever) {
       win.webContents.send('from-other-renderer', whatever)
   })
   // Open the DevTools.
-   win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 }
 
 //ipc functions handler

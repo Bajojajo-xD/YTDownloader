@@ -34,7 +34,7 @@ ipcRenderer.on('update_available', (a, info) => {
 });
 
 ipcRenderer.on('update_progress', (a, info, progress) => {
-  updaterinfo.innerText = progress > 0 ? `🔰 Update ${info.version} downloading: ${Math.round(progress.percent)}%` : `💮 Update ${info.version} initializing...`
+  updaterinfo.innerText = progress.percent > 0 ? `🔰 Update ${info.version} downloading: ${Math.round(progress.percent)}%` : `💮 Update ${info.version} initializing...`
   updaterimg.src='../images/update-download.png';
 });
 
