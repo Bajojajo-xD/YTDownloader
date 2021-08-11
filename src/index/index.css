@@ -1,0 +1,235 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300';
+
+@media (prefers-color-scheme: dark) {
+  body { 
+    background:  #333; color: white; 
+  }
+  .btn-engs {
+    color: white;
+  }
+  .btn-engs::before {
+    background-color: rgba(0, 195, 255, 0.205);
+    border-radius: 15px;
+  }
+  .btn-engs::after {
+    border: 1px solid rgba(14, 231, 87, 0.5);
+    border-radius: 15px;
+  }
+  .btn-upd {
+    color: white;
+  }
+  .btn-upd::before {
+    background-color: rgba(255, 0, 0, 0.205);
+    border-radius: 15px;
+  }
+  .btn-upd::after {
+    border: 1px solid rgba(120, 212, 235, 0.5);
+    border-radius: 15px;
+  }
+  #notification {
+    color: white;
+    background-color: black;
+  }
+  #close-button {
+    color: white;
+    border: 1px solid rgba(14, 231, 87, 0.5);
+    background-color: rgba(255, 0, 0, 0.425);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body { 
+    background:  #ddd; color: black; 
+  }
+  .btn-engs {
+    color: black;
+  }
+  .btn-engs::before {
+    background-color: rgba(255, 0, 0, 0.377);
+    border-radius: 15px;
+  }
+  .btn-engs::after {
+    border: 1px solid rgba(14, 47, 231, 0.568);
+    border-radius: 15px;
+  }
+  .btn-upd {
+    color: black;
+  }
+  .btn-upd::before {
+    background-color: rgba(4, 0, 255, 0.377);
+    border-radius: 15px;
+  }
+  .btn-upd::after {
+    border: 1px solid rgba(188, 14, 231, 0.568);
+    border-radius: 15px;
+  }
+  #notification {
+    color: black;
+    background-color: white;
+  }
+  #close-button {
+    color: black;
+    border: 1px solid rgba(188, 14, 231, 0.568);
+    background-color: rgba(26, 228, 60, 0.411);
+  }
+}
+
+#toggle-dark-mode {
+  margin-right: 5px;
+  margin-left: auto;
+  margin-bottom: 5px;
+  width: 30px;
+  display: block;
+  cursor: pointer;
+  transition: width 1s;
+}
+
+#toggle-dark-mode:hover {
+  width: 45px;
+}
+
+#title
+{
+  font-size: 300%;
+  font-family: sans-serif;
+  text-align: center;
+  margin-top: -20px;
+}
+
+#version {
+  box-sizing: border-box;
+  font-size: 150%;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#notification {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 150px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+#notification-img {
+  width: 40px;
+  float: left;
+  margin-bottom: 20px;
+  margin-top: 1px;
+  margin-left: 10px;
+}
+
+#message {
+  margin-top: 12px;
+  float: left;
+  margin-left: 10px;
+}
+
+#close-button {
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+div[class*=box] {
+  height: 33.33%;
+  width: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  line-height: 50px;
+  height: 50px;
+  text-align: center;
+  width: 250px;
+  cursor: pointer;
+}
+
+/* 
+========================
+      BUTTON ENGINES
+========================
+*/
+
+.btn-engs {
+  transition: all 0.5s;
+  position: relative;
+}
+.btn-engs::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+}
+.btn-engs:hover::before {
+  opacity: 0 ;
+  transform: scale(0.5,0.5);
+}
+.btn-engs::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  transform: scale(1.2,1.2);
+}
+.btn-engs:hover::after {
+  opacity: 1;
+  transform: scale(1,1);
+}
+
+/* 
+========================
+      BUTTON UPDATE
+========================
+*/
+
+.btn-upd {
+  transition: all 0.5s;
+  position: relative;
+}
+.btn-upd::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+}
+.btn-upd:hover::before {
+  opacity: 0 ;
+  transform: scale(0.5,0.5);
+}
+.btn-upd::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  transform: scale(1.2,1.2);
+}
+.btn-upd:hover::after {
+  opacity: 1;
+  transform: scale(1,1);
+}
