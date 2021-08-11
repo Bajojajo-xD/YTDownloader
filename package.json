@@ -18,6 +18,20 @@
     "url": "https://github.com/Bajojajo-xD/YTDownloader"
   },
   "license": "MIT",
+  "build": {
+    "productName": "YTdownloader",
+    "appId": "com.BayoJayoxD.YTDownloader",
+    "directories": {
+      "output": "build/${version}"
+    },
+    "win": {
+      "icon": "src/images/icon.ico",
+      "target": ["nsis"]
+    },
+    "linux": {
+      "icon": "src/images/icon.ico"
+    }
+  },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.3.9"
