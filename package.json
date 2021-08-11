@@ -1,6 +1,6 @@
 {
   "name": "yt-downloader",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "YT Downloader build with electron",
   "main": "src/main.js",
   "scripts": {
@@ -40,6 +40,7 @@
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.3.9",
+    "pretty-ms": "^7.0.1",
     "ytdl-core": "^4.9.1"
   },
   "devDependencies": {

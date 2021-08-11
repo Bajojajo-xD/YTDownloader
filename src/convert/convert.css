@@ -1,0 +1,38 @@
+@media (prefers-color-scheme: dark) {
+  body { 
+    background:  #333; color: white; 
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body { 
+    background:  #ddd; color: black; 
+  }
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  text-align: center;
+}
+
+#video-img {
+  margin-top: 10px;
+  height: 150px;
+}
+
+#video-title {
+  margin-top: 15px;
+  font-size: 35px;
+  font-family: Arial;
+  font-weight: bold;
+}
+
+#video-length {
+  margin-top: -20px;
+  font-size: 20px;
+  font-family: Arial;
+  font-style: italic;
+}

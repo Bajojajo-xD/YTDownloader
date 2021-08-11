@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron');
+const { app, BrowserWindow, ipcMain, nativeTheme, dialog } = require('electron');
 const path = require('path');
 const { autoUpdater } = require('electron-updater');
 
@@ -35,6 +35,32 @@ const createWindow = () => {
   // mainWindow.webContents.openDevTools();
 };
 
+
+function createBrowserWindow(url, h, w, r, f, whatever) {
+  const win = new BrowserWindow({
+    height: h,
+    width: w,
+    icon: 'src/images/icon.ico',
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+    resizable: r,
+    show: false,
+    frame: f,
+  });
+
+  win.loadFile(url);
+  win.removeMenu()
+
+  win.once('ready-to-show', () => {
+    win.show()
+      win.webContents.send('from-other-renderer', whatever)
+  })
+  // Open the DevTools.
+   win.webContents.openDevTools();
+}
+
 //ipc functions handler
 
 ipcMain.handle('dark-mode:toggle', () => {
@@ -46,8 +72,12 @@ ipcMain.handle('dark-mode:toggle', () => {
   return nativeTheme.shouldUseDarkColors
 })
 
-ipcMain.handle('browserWindow', (event, url, h, w, r, f, ) => {
-  return createBrowserWindow(url, h, w, r, f, )
+ipcMain.handle('askForDownload', (e, loc) => {
+  return dialog.showSaveDialog({title: 'Where to save?', defaultPath: loc})
+})
+
+ipcMain.handle('browserWindow', (event, url, h, w, r, f, whatever) => {
+  return createBrowserWindow(url, h, w, r, f, whatever)
 })
 
 ipcMain.handle('destroyWindow', () => {
@@ -57,6 +87,7 @@ ipcMain.handle('destroyWindow', () => {
 ipcMain.handle('app_version', () => {
   return app.getVersion();
 });
+
 
 let updateinfo = null, updatedownload = null, win
 ipcMain.handle('check-for-updates', async event => {
@@ -130,30 +161,6 @@ autoUpdater.on('update-downloaded', () => {
     win.send('update_ready', updateinfo);
   } catch (err) {}
 });
-
-function createBrowserWindow(url, h, w, r, f) {
-  const win = new BrowserWindow({
-    height: h,
-    width: w,
-    icon: 'src/images/icon.ico',
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-    resizable: r,
-    show: false,
-    frame: f,
-  });
-
-  win.loadFile(url);
-  win.removeMenu()
-
-  win.once('ready-to-show', () => {
-    win.show()
-  })
-  // Open the DevTools.
-  // win.webContents.openDevTools();
-}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

@@ -45,13 +45,7 @@
   margin-bottom: 0px;
 }
 
-#ifvalid {
-  font-size: 200%;
-  font-family: sans-serif;
-  text-align: center;
-}
-
-div[class*=box] {
+div[class=box-1] {
   height: 33.33%;
   width: 100%; 
   display: flex;
@@ -116,7 +110,8 @@ div[class*=box] {
 #valid-yt-url {
   height: 40px;
   margin-right: 10px;
-  float: right;;
+  margin-left: 10px;
+  float: right;
 }
 
 #yt-url {
@@ -128,4 +123,51 @@ div[class*=box] {
   border-style: solid;
   padding-left: 15px;
   padding-right: 15px;
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+  .btn {
+    background: rgb(10, 6, 71);
+    border-color: rgb(80, 8, 8);
+    color: white;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .btn {
+    background: rgb(57, 133, 74);
+    border-color: rgb(20, 32, 141);
+    color: black;
+  }
+}
+
+div[class=btn-1] {
+  width: 100%; 
+  margin-top: -5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden-btn {
+  height: 50px;
+  width: 200px;
+  font-size: 30px;
+  border-radius: 15px;
+  border-style: solid;
+  background-color: rgba(255, 255, 255, 0.11);
+  border-width: 2px;
+  border-color: #111;
+}
+
+.btn {
+  height: 60px;
+  width: 220px;
+  border-radius: 15px;
+  cursor: pointer;
+  border-width: 2px;
+  border-style: solid;
+  font-size: 35px;
 }
