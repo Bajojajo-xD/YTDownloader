@@ -1,12 +1,12 @@
 {
   "name": "yt-downloader",
-  "version": "0.0.1",
+  "version": "0.0.1-1",
   "description": "YT Downloader build with electron",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
-    "build": "electron-builder build --win --publish never",
-    "deploy": "electron-builder build --win --publish always"
+    "build": "electron-builder build -wl --publish never",
+    "deploy": "electron-builder build -wl --publish always"
   },
   "keywords": [],
   "author": {
@@ -29,7 +29,7 @@
       "target": ["nsis"]
     },
     "linux": {
-      "icon": "src/images/icon.ico"
+      "target": ["AppImage", "deb"]
     }
   },
   "dependencies": {

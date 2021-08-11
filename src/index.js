@@ -32,7 +32,7 @@ const createWindow = () => {
 
   
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+   mainWindow.webContents.openDevTools();
 };
 
 //ipc functions handler
@@ -149,7 +149,7 @@ function createBrowserWindow(url, h, w, r, f) {
     frame: f,
   });
 
-  win.loadURL(url);
+  win.loadFile(url);
   win.removeMenu()
 
   win.once('ready-to-show', () => {
