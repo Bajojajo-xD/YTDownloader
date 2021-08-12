@@ -3,7 +3,7 @@
 # ✨ YTDownloader
 🎉 YT Downloader build with electron
 
-🧶 Build by ***me***, maintained by ***me***, 
+🧶 Build by ***me***, maintained by ***me*** <br />
 🛡️ VirusTotal analysis for [source code zip](https://www.virustotal.com/gui/url/ffb4c87001173733487e7b3d97cd498a09c7c088234a1a5f75f2357561eabb2e/) v1.0.1
 
 <hr />
