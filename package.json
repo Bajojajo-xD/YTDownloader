@@ -1,6 +1,6 @@
 {
   "name": "yt-downloader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "YT Downloader build with electron",
   "main": "src/main.js",
   "scripts": {
