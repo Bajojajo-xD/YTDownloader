@@ -9,5 +9,5 @@
 <hr />
 
 🔴 Installation  
-- On Windows: download [latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest) '.exe' file and install
-- On Linux (Ubuntu, Fedora and other distros supporting [AppImage](https://appimage.org/) files): download [latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest) '.AppImage' file and [follow guide](https://fedoraproject.org/wiki/AppImage)
+- On Windows: download **[latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest)** '.exe' file and install
+- On Linux *(Ubuntu, Fedora and other distros supporting [AppImage](https://appimage.org/) files)*: download **[latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest)** '.AppImage' file and **[follow guide](https://fedoraproject.org/wiki/AppImage)**
