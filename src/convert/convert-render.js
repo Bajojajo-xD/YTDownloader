@@ -65,13 +65,13 @@ mp4button.addEventListener('click', () => {
 })
 
 function downloadvideo (format, quality, encodespeed) {
-  ipcRenderer.invoke('askForDownload', `${videoinfo.title}.${format}`).then(async location => {
+  ipcRenderer.invoke('askForDownload', `${videoinfo.title}.${format}`, {name: format === 'mp3' ? 'Audio' : 'Video', extensions: format === 'mp3' ? ['mp3'] : ['mp4']}).then(async location => {
     if (location.canceled) return;
     buttons(true)
 
     const tempfolder = await ipcRenderer.invoke('tempFolder')
-    const mp3speed = document.getElementById('mp3-download')
 
+    const mp3speed = document.getElementById('mp3-download')
     if (format === 'wav' || format === 'mp3') {
       const tracker = {
         start: Date.now(),
@@ -98,9 +98,8 @@ function downloadvideo (format, quality, encodespeed) {
         // Set inputs
         '-i', 'pipe:3',
         // Keep encoding
-        '-c:a', 'copy',
-        // Define output container
-        '-f', 'matroska', 'pipe:3',
+        // Define output file
+        tempfolder + 'temp.mp3'
         ], {
         windowsHide: true,
         stdio: [
@@ -114,13 +113,12 @@ function downloadvideo (format, quality, encodespeed) {
       ffmpegProcess.on('close', () => {
         // Cleanup
         clearInterval(progressbarHandle);
-        fs.copyFileSync(tempfolder + 'yt-dwnld', location.filePath)
-        fs.unlinkSync(tempfolder + 'yt-dwnld')
+        fs.copyFileSync(tempfolder + 'temp.mp3', location.filePath)
+        fs.unlinkSync(tempfolder + 'temp.mp3')
         mp3speed.innerHTML = `Audio ready`;
         buttons()
       });
 
-      ffmpegProcess.stdio[3].pipe(fs.createWriteStream(tempfolder + 'yt-dwnld'));
       audio.pipe(ffmpegProcess.stdio[3]);
       
       return;
@@ -161,38 +159,38 @@ function downloadvideo (format, quality, encodespeed) {
      // process.stdout.write(`running for: ${((Date.now() - tracker.start) / 1000 / 60).toFixed(2)} Minutes.`);
     };
 
+    fs.createWriteStream(tempfolder + '/temp.mp4')
     // Start the ffmpeg child process
     const ffmpegProcess = cp.spawn(ffmpeg, [
-    // Remove ffmpeg's console spamming
-    '-loglevel', '8', '-hide_banner',
-    // Redirect/Enable progress messages
-    '-progress', 'pipe:3',
-    // Set inputs
-    '-i', 'pipe:4',
-    '-i', 'pipe:5',
-    // Map audio & video from streams
-    '-map', '0:a',
-    '-map', '1:v',
-    // Keep encoding
-    '-c:a', 'copy',
-    '-preset', encodespeed, '-tune', 'fastdecode',
-    // Define output container
-    '-f', 'matroska', 'pipe:5',
+      // Remove ffmpeg's console spamming
+      '-loglevel', '8', '-hide_banner',
+      // Redirect/Enable progress messages
+      '-progress', 'pipe:3',
+      // Set inputs
+      '-i', 'pipe:4',
+      '-i', 'pipe:5',
+      // Map audio & video from streams
+      '-map', '0:a',
+      '-map', '1:v',
+      // Keep encoding
+      '-preset', encodespeed, '-tune', 'fastdecode',
+      // Define output file
+      tempfolder + 'temp.mp4',
     ], {
-    windowsHide: true,
-    stdio: [
-      /* Standard: stdin, stdout, stderr */
-      'inherit', 'inherit', 'inherit',
-      /* Custom: pipe:3, pipe:4, pipe:5 */
-      'pipe', 'pipe', 'pipe',
-    ],
+      windowsHide: true,
+      stdio: [
+        /* Standard: stdin, stdout, stderr */
+        'inherit', 'inherit', 'inherit',
+        /* Custom: pipe:3, pipe:4, pipe:5 */
+        'pipe', 'pipe', 'pipe',
+      ],
     });
 
     ffmpegProcess.on('close', () => {
       // Cleanup
       clearInterval(progressbarHandle);
-      fs.copyFileSync(tempfolder + 'yt-dwnld', location.filePath)
-      fs.unlinkSync(tempfolder + 'yt-dwnld')
+      fs.copyFileSync(tempfolder + 'temp.mp4', location.filePath)
+      fs.unlinkSync(tempfolder + 'temp.mp4')
       mp3speed.innerHTML = `Video ready`;
       mp4speed.innerHTML = ''
       merged.innerHTML = ''
@@ -213,8 +211,11 @@ function downloadvideo (format, quality, encodespeed) {
       }
       tracker.merged = args;
     });
-    ffmpegProcess.stdio[5].pipe(fs.createWriteStream(tempfolder + 'yt-dwnld'));
     audio.pipe(ffmpegProcess.stdio[4]);
     video.pipe(ffmpegProcess.stdio[5]);
+
+    process.on('exit', () => {
+      ffmpegProcess.kill()
+    })
   })
 }

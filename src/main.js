@@ -73,11 +73,11 @@ ipcMain.handle('dark-mode:toggle', () => {
 })
 
 ipcMain.handle('tempFolder', () => {
-  return app.getPath("temp") + "/YTDownloader"
+  return app.getPath("cache")
 })
 
-ipcMain.handle('askForDownload', (e, loc) => {
-  return dialog.showSaveDialog({title: 'Where to save?', defaultPath: loc})
+ipcMain.handle('askForDownload', (e, loc, options) => {
+  return dialog.showSaveDialog({title: 'Where to save?', defaultPath: loc, filters: [options]})
 })
 
 ipcMain.handle('browserWindow', (event, url, h, w, r, f, whatever) => {

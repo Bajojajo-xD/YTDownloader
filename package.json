@@ -7,7 +7,8 @@
     "start": "electron-forge start",
     "build": "electron-builder build -wl --publish never",
     "deploy": "electron-builder build -wl --publish always",
-    "test": "electron-builder build -l --publish never"
+    "wtest": "electron-builder build -w --publish never",
+    "ltest": "electron-builder build -l --publish never"
   },
   "keywords": [],
   "author": {
