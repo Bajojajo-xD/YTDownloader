@@ -72,8 +72,8 @@ ipcMain.handle('dark-mode:toggle', () => {
   return nativeTheme.shouldUseDarkColors
 })
 
-ipcMain.handle('getapppath', () => {
-  return app.getAppPath()
+ipcMain.handle('tempFolder', () => {
+  return app.getPath("temp") + "/YTDownloader"
 })
 
 ipcMain.handle('askForDownload', (e, loc) => {

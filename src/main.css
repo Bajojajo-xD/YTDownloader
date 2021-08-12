@@ -104,28 +104,24 @@ div[class=box-1] {
 	outline: none;
 }
 
-
-
-
-#valid-yt-url {
-  height: 40px;
-  margin-right: 10px;
-  margin-left: 10px;
-  float: right;
+#yt-search {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 20px;
+  height: 100px;
 }
 
 #yt-url {
-  width: 70%;
+  width: 98%;
   height: 40px;
   font-size: 20px;
   border-radius: 15px;
   border-width: 2px;
   border-style: solid;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 1%;
+  padding-right: 1%;
 }
-
-
 
 @media (prefers-color-scheme: dark) {
   .btn {
@@ -145,7 +141,7 @@ div[class=box-1] {
 
 div[class=btn-1] {
   width: 100%; 
-  margin-top: -5px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -170,4 +166,8 @@ div[class=btn-1] {
   border-width: 2px;
   border-style: solid;
   font-size: 35px;
+}
+
+.hidden {
+  visibility: hidden;
 }

@@ -28,7 +28,7 @@ function buttons (hide) {
 
 let yturl, videoinfo
 ipcRenderer.on('from-other-renderer', async (a, yt) => {
-  yturl = yt
+  yturl = yt 
 
   const error = function() {
     document.getElementById('video-img').src='../images/error.png'
@@ -69,7 +69,8 @@ function downloadvideo (format, quality, encodespeed) {
     if (location.canceled) return;
     buttons(true)
 
-    let mp3speed = document.getElementById('mp3-download')
+    const tempfolder = await ipcRenderer.invoke('tempFolder')
+    const mp3speed = document.getElementById('mp3-download')
 
     if (format === 'wav' || format === 'mp3') {
       const tracker = {
@@ -113,20 +114,20 @@ function downloadvideo (format, quality, encodespeed) {
       ffmpegProcess.on('close', () => {
         // Cleanup
         clearInterval(progressbarHandle);
-        fs.copyFileSync(`temp`, location.filePath)
-        fs.unlinkSync(`temp`)
+        fs.copyFileSync(tempfolder + 'yt-dwnld', location.filePath)
+        fs.unlinkSync(tempfolder + 'yt-dwnld')
         mp3speed.innerHTML = `Audio ready`;
         buttons()
       });
 
-      ffmpegProcess.stdio[3].pipe(fs.createWriteStream(`temp`));
+      ffmpegProcess.stdio[3].pipe(fs.createWriteStream(tempfolder + 'yt-dwnld'));
       audio.pipe(ffmpegProcess.stdio[3]);
       
       return;
     }
 
-    let mp4speed = document.getElementById('mp4-download')
-    let merged = document.getElementById('merged')
+    const mp4speed = document.getElementById('mp4-download')
+    const merged = document.getElementById('merged')
 
     const tracker = {
       start: Date.now(),
@@ -190,8 +191,8 @@ function downloadvideo (format, quality, encodespeed) {
     ffmpegProcess.on('close', () => {
       // Cleanup
       clearInterval(progressbarHandle);
-      fs.copyFileSync(`temp`, location.filePath)
-      fs.unlinkSync(`temp`)
+      fs.copyFileSync(tempfolder + 'yt-dwnld', location.filePath)
+      fs.unlinkSync(tempfolder + 'yt-dwnld')
       mp3speed.innerHTML = `Video ready`;
       mp4speed.innerHTML = ''
       merged.innerHTML = ''
@@ -212,7 +213,7 @@ function downloadvideo (format, quality, encodespeed) {
       }
       tracker.merged = args;
     });
-    ffmpegProcess.stdio[5].pipe(fs.createWriteStream(`temp`));
+    ffmpegProcess.stdio[5].pipe(fs.createWriteStream(tempfolder + 'yt-dwnld'));
     audio.pipe(ffmpegProcess.stdio[4]);
     video.pipe(ffmpegProcess.stdio[5]);
   })

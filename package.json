@@ -42,6 +42,7 @@
     "electron-updater": "^4.3.9",
     "ffmpeg-static": "^4.4.0",
     "pretty-ms": "^7.0.1",
+    "youtube-sr": "^4.1.7",
     "ytdl-core": "^4.9.1"
   },
   "devDependencies": {
