@@ -1,5 +1,5 @@
 const { ipcRenderer } = require("electron");
-const ytdl = require("ytdl-core")
+const ytdl = require("ytdl-core");
 
 const yturl = document.getElementById('yt-url')
 
@@ -26,7 +26,6 @@ yturl.addEventListener('input', () => {
 
 ifvalid.addEventListener('click', async () => {
   if (ifvalid.classList.contains('hidden-btn')) return;
-  yturl.setAttribute('readonly', 'true')
   ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 560, 600, false, true, yturl.value)
 })
 

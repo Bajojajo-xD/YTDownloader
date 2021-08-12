@@ -19,7 +19,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextIsolation: false,
     },
-    show: false
+    show: false,
   });
 
   // and load the index.html of the app.
@@ -70,6 +70,10 @@ ipcMain.handle('dark-mode:toggle', () => {
     nativeTheme.themeSource = 'dark'
   }
   return nativeTheme.shouldUseDarkColors
+})
+
+ipcMain.handle('getapppath', () => {
+  return app.getAppPath()
 })
 
 ipcMain.handle('askForDownload', (e, loc) => {
