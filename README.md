@@ -3,3 +3,11 @@
 # ✨ YTDownloader
 🎉 YT Downloader build with electron
 
+🧶 Build by ***me***, maintained by ***me***, 
+🛡️ VirusTotal analysis for [source code zip](https://www.virustotal.com/gui/url/ffb4c87001173733487e7b3d97cd498a09c7c088234a1a5f75f2357561eabb2e/) v1.0.1
+
+<hr />
+
+🔴 Installation  
+- On windows: download [latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest) '.exe' file and install
+- On Linux (Ubuntu, Fedora and other distros supporting [AppImage](https://appimage.org/) files): download [latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest) '.AppImage' file and [follow guide](https://fedoraproject.org/wiki/AppImage)
