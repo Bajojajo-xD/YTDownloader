@@ -26,7 +26,7 @@ yturl.addEventListener('input', () => {
 
 ifvalid.addEventListener('click', async () => {
   if (ifvalid.classList.contains('hidden-btn')) return;
-  ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 560, 600, false, true, yturl.value)
+  ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 650, 450, false, true, yturl.value)
 })
 
 function opensite(site) {

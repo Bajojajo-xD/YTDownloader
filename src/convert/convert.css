@@ -2,11 +2,21 @@
   body { 
     background:  #333; color: white; 
   }
+  .button {
+    color: rgb(207, 222, 231);
+    background: rgb(10, 6, 71);
+    border-color: rgb(80, 8, 8);
+  }
 }
 
 @media (prefers-color-scheme: light) {
   body { 
     background:  #ddd; color: black; 
+  }
+  .button {
+    color: rgb(0, 0, 0);
+    background: rgb(57, 133, 74);
+    border-color: rgb(20, 32, 141);
   }
 }
 
@@ -25,7 +35,9 @@ td {
 
 #video-title {
   margin-top: 15px;
-  font-size: 35px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 30px;
   font-family: Arial;
   font-weight: bold;
 }
@@ -35,4 +47,40 @@ td {
   font-size: 20px;
   font-family: Arial;
   font-style: italic;
+}
+
+#mp4 {
+  float: right;
+  margin-right: 15px;
+  border-radius: 15px;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+}
+
+#mp3 {
+  float: left;
+  margin-left: 15px;
+  border-radius: 15px;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+}
+
+.hidden {
+  background-color: rgba(255, 255, 255, 0.11);
+  border-width: 2px;
+  border-color: #111;
+  color: #111;
+  border-style: solid;
+}
+
+.button {
+  cursor: pointer;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.info {
+  font-size: 20px;
 }

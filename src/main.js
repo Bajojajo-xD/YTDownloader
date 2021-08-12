@@ -85,7 +85,7 @@ ipcMain.handle('browserWindow', (event, url, h, w, r, f, whatever) => {
 })
 
 ipcMain.handle('destroyWindow', () => {
-  return BrowserWindow.getFocusedWindow().destroy()
+  return BrowserWindow.getFocusedWindow().close()
 })
 
 ipcMain.handle('app_version', () => {
