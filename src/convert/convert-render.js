@@ -6,7 +6,7 @@ const fs = require('fs')
 const { ipcRenderer } = require("electron");
 const prettyMilliseconds = require("pretty-ms");
 const ytdl = require("ytdl-core");
-const ffmpeg = require('ffmpeg-static');
+const ffmpeg = require('ffmpeg-static').replace('app.asar','app.asar.unpacked');
 
 const mp3button = document.getElementById('mp3')
 const mp4button = document.getElementById('mp4')
