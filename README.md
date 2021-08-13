@@ -3,10 +3,14 @@
 # ✨ YTDownloader
 🎉 YT Downloader build with electron
 
-❓ **Get [help](https://github.com/Bajojajo-xD/YTDownloader/blob/v1.1.0/HELP.md)**
+<hr />
+
+❓ **Get [help with installation](https://github.com/Bajojajo-xD/YTDownloader/blob/v1.1.0/HELP.md#-installer)**
+
+<br />
 
 🧶 Build by ***me***, maintained by ***me*** <br />
-🛡️ VirusTotal analysis [for source code v1.1.0](https://www.virustotal.com/gui/url/7beeefd6b62b55591f839d4f8614ed6cfcbede88fc9799ae4800210ff12252f1/detection)
+🛡️ VirusTotal analysis [for source code v1.1.2](https://www.virustotal.com/gui/url/8396b904642dc9b4a8f7792f1bbffbff5ce6095416e2ee779b95f37de288c68f/detection)
 
 <hr />
 
@@ -24,5 +28,3 @@
 ![Downloading update](./preview/updater-download.png)
 #### 🟢 Ready
 ![Update ready](./preview/updater-ready.png)
-
-
