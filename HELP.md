@@ -25,4 +25,9 @@
 - **M4A** download supported.
 
 # [🟢 Settings](#-settings)
+- Settings are available under right-top corner gear image
 ## 🟡 Updater
+### 🔵 Download
+- Update is ready to be **downloaded**, click 'download' button to continue
+### 🔵 Ready
+- Update is ready to be **installed**, click 'restart' button or restart app to continue
