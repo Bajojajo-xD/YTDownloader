@@ -1,6 +1,9 @@
 # [🟢 Installer]()
-- On Windows: download **[latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest/download/YTdownloader-Web-Setup.exe)** and install
-- On Linux *(Ubuntu, Fedora and other distros supporting [AppImage](https://appimage.org/) files)*: download **[latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest/download/YTDownloader.AppImage)** file and **[follow guide](https://fedoraproject.org/wiki/AppImage)**
+## 🟡 Windows
+- Download **[latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest/download/YTdownloader-Web-Setup.exe)** and install
+
+## 🟡 Linux
+- *(Ubuntu, Fedora and other distros supporting [AppImage](https://appimage.org/) files)*: Download **[latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest/download/YTDownloader.AppImage)** file and **[follow guide](https://fedoraproject.org/wiki/AppImage)**
 
 
 <hr />
