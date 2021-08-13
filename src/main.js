@@ -77,7 +77,7 @@ ipcMain.handle('tempFolder', () => {
 })
 
 ipcMain.handle('askForDownload', (e, loc, options) => {
-  return dialog.showSaveDialog({title: 'Where to save?', defaultPath: loc, filters: [options]})
+  return dialog.showSaveDialog({title: 'Where to save?', defaultPath: loc, filters: options})
 })
 
 ipcMain.handle('browserWindow', (event, url, h, w, r, f, whatever) => {

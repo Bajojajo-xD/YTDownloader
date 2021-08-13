@@ -32,6 +32,11 @@ yturl.addEventListener('input', () => {
   }
 })
 
+yturl.addEventListener('keydown', async (e) => {
+  if (e.key !== "Enter") return;
+  ifvalid.click()
+})
+
 ifvalid.addEventListener('click', async () => {
   if (ifvalid.classList.contains('hidden-btn')) return;
   let urltoprov = yturl.value

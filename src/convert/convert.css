@@ -7,6 +7,11 @@
     background: rgb(10, 6, 71);
     border-color: rgb(80, 8, 8);
   }
+  #mp4-quality {
+    color: white;
+    background-color: black;
+    border-color: rgb(131, 139, 12);
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -15,8 +20,11 @@
   }
   .button {
     color: rgb(0, 0, 0);
-    background: rgb(57, 133, 74);
+    background: rgb(109, 218, 133);
     border-color: rgb(20, 32, 141);
+  }
+  #mp4-quality {
+    border-color: rgb(243, 207, 87);
   }
 }
 
@@ -65,6 +73,21 @@ td {
   width: 150px;
   height: 50px;
   font-size: 20px;
+}
+
+div[class='mp4q'] {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: block;
+}
+
+#mp4-quality {
+  border-radius: 15px;
+  width: 150px;
+  height: 40px;
+  font-size: 15px;
+  border-width: 2px;
 }
 
 .hidden {

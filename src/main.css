@@ -133,7 +133,7 @@ div[class=box-1] {
 
 @media (prefers-color-scheme: light) {
   .btn {
-    background: rgb(57, 133, 74);
+    background: rgb(109, 218, 133);
     border-color: rgb(20, 32, 141);
     color: black;
   }
