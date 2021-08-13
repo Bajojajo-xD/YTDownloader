@@ -88,23 +88,15 @@ td {
   font-size: 20px;
 }
 
-.help {
+#help {
+  color: greenyellow;
+  font-weight: bold;
   margin-top: -5px;
   font-size: 20px;
   cursor: pointer;
 }
 
-.help:link {
-  color: greenyellow;
-  font-weight: bold;
-}
-
-.help:visited {
-  color: greenyellow;
-  font-weight: bold;
-}
-
-.help:hover {
+#help:hover {
   color: green;
 }
 

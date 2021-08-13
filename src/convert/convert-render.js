@@ -11,6 +11,8 @@ const ffmpeg = require('ffmpeg-static').replace('app.asar','app.asar.unpacked');
 const mp3button = document.getElementById('audio')
 const mp4button = document.getElementById('video')
 const mp4quality = document.getElementById('mp4-quality')
+const mp3speed = document.getElementById('mp3-download')
+const mp4speed = document.getElementById('mp4-download')
 
 function buttons (hide) {
   if (hide === true) {
@@ -33,7 +35,7 @@ function buttons (hide) {
   }
 }
 
-let yturl, videoinfo
+let yturl, videoinfo, loc
 ipcRenderer.on('from-other-renderer', async (a, yt) => {
   yturl = yt 
 
@@ -89,22 +91,21 @@ mp4button.addEventListener('click', () => {
   downloadvideo('video', document.getElementById('mp4-quality').value, document.getElementById('mp4-quality').innerHTML, 'ultrafast')
 })
 
-async function downloadvideo (format, quality, res, encodespeed, afterconnlost) {
+async function downloadvideo (format, quality, res, encodespeed) {
 
-  const loc = await ipcRenderer.invoke('askForDownload', `${videoinfo.title}${format === 'audio' ? '.mp3' : '.mkv'}`, format === 'audio' ? [{name: 'MP3 File (recommended)', extensions: ['mp3']}, {name: 'M4A File', extensions: ['m4a']}, {name: 'WAV File (huge size)', extensions: ['wav']}, {name: 'Any File (unsupported)', extensions: ['*']}] : [{name: 'MKV File (recommended)', extensions: ['mkv']}, {name: 'MP4 File', extensions: ['mp4']}, {name: 'AVI File (mkv => avi)', extensions: ['avi']}, {name: 'Any File (unsupported)', extensions: ['*']}])
+  loc = await ipcRenderer.invoke('askForDownload', `${videoinfo.title}${format === 'audio' ? '.mp3' : '.mkv'}`, format === 'audio' ? [{name: 'MP3 File (recommended)', extensions: ['mp3']}, {name: 'M4A File', extensions: ['m4a']}, {name: 'WAV File (huge size)', extensions: ['wav']}, {name: 'Any File (unsupported)', extensions: ['*']}] : [{name: 'MKV File (recommended)', extensions: ['mkv']}, {name: 'MP4 File', extensions: ['mp4']}, {name: 'AVI File (mkv => avi)', extensions: ['avi']}, {name: 'Any File (unsupported)', extensions: ['*']}])
 
   if (loc.canceled) return;
+  mp3speed.removeAttribute('style')
   buttons(true)
     
   const fileName = loc.filePath.split('.')[0]
   const fileExt = `.${loc.filePath.split('.')[1]}`
-  let avi, tracker, showProgress, progressbarHandle = null, audio, video, ffmpegoptions, ffmpegProcess, 
+  let avi, tracker, showProgress, progressbarHandle = null, audio, video, ffmpegoptions, ffmpegProcess
 
   if (fileExt === '.avi') avi = true;
 
   const tempfolder = await ipcRenderer.invoke('tempFolder')
-  const mp3speed = document.getElementById('mp3-download')
-  const mp4speed = document.getElementById('mp4-download')
 
   const ffmpegoptionsaudio = [
     // Remove ffmpeg's console spamming
@@ -241,6 +242,7 @@ async function downloadvideo (format, quality, res, encodespeed, afterconnlost) 
       }
   
       mp3speed.innerHTML = format === 'video' ? 'Video ready' : 'Audio ready';
+      mp3speed.setAttribute('style', 'color: greenyellow; cursor: pointer')
       mp4speed.innerHTML = '';
   
       buttons()
@@ -252,6 +254,17 @@ const highRes = [
   '4320',
   '2160',
 ]
+
+document.getElementById('help').addEventListener('click', async () => {
+  require('electron').shell.openExternal('https://github.com/Bajojajo-xD/YTDownloader/blob/main/HELP.md#-downloader')
+})
+
+mp3speed.addEventListener('click', async () => {
+  if (mp3speed.innerHTML !== 'Video ready' && mp3speed.innerHTML !== 'Audio ready') return;
+  try {
+    require('electron').shell.openPath(loc.filePath)
+  } catch (err) {}
+})
 
 document.getElementById('exit').addEventListener('click', async () => {
   try {
