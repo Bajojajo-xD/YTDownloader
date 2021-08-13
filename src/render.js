@@ -47,7 +47,7 @@ ifvalid.addEventListener('click', async () => {
     yturl.removeAttribute('readonly')
     document.getElementById('yt-search').classList.add('hidden')
   }
-  ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 650, 450, false, true, urltoprov)
+  ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 650, 480, false, true, urltoprov)
 })
 
 function opensite(site) {

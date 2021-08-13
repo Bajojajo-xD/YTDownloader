@@ -208,7 +208,7 @@ function downloadvideo (format, quality, res, encodespeed) {
       video.pipe(ffmpegProcess.stdio[4]);
     }
 
-    ffmpegProcess.on('close', () => {
+    ffmpegProcess.on('exit', () => {
       // Cleanup
       clearInterval(progressbarHandle);
       try {
@@ -229,6 +229,15 @@ function downloadvideo (format, quality, res, encodespeed) {
       buttons()
     });
 
+    ffmpegProcess.on('error', () => {
+      ffmpegProcess.kill()
+      ipcRenderer.invoke('errorDialog', 'Create video error', 'FFMPEG process error, try downloading again')
+
+      mp3speed.innerHTML = '';
+      mp4speed.innerHTML = '';
+      buttons()
+    })
+
     process.on('exit', () => {
       ffmpegProcess.kill()
     })
@@ -238,5 +247,4 @@ function downloadvideo (format, quality, res, encodespeed) {
 const highRes = [
   '4320',
   '2160',
-  '1440'
 ]

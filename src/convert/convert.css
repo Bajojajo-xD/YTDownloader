@@ -75,6 +75,26 @@ td {
   font-size: 20px;
 }
 
+.help {
+  margin-top: -5px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.help:link {
+  color: greenyellow;
+  font-weight: bold;
+}
+
+.help:visited {
+  color: greenyellow;
+  font-weight: bold;
+}
+
+.help:hover {
+  color: green;
+}
+
 div[class='mp4q'] {
   align-items: center;
   justify-content: center;
