@@ -94,8 +94,7 @@ function downloadvideo (format, quality, res, encodespeed) {
     if (location.canceled) return;
     buttons(true)
     
-    const regex = /^[\w,\s-]+\.[A-Za-z]{3}$/
-    const fileName = location.filePath.split('.')[0].replace(regex, '-')
+    const fileName = location.filePath.split('.')[0]
     const fileExt = `.${location.filePath.split('.')[1]}`
     let avi
     if (fileExt === '.avi') avi = true;
@@ -213,7 +212,7 @@ function downloadvideo (format, quality, res, encodespeed) {
       video.pipe(ffmpegProcess.stdio[4]);
     }
 
-    ffmpegProcess.on('exit', () => {
+    ffmpegProcess.on('close', () => {
       // Cleanup
       clearInterval(progressbarHandle);
       try {
