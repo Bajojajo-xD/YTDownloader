@@ -35,7 +35,7 @@ function buttons (hide) {
   }
 }
 
-let yturl, videoinfo, loc
+let yturl, videoinfo, loc, ffmpegProcess
 ipcRenderer.on('from-other-renderer', async (a, yt) => {
   yturl = yt 
 
@@ -101,7 +101,7 @@ async function downloadvideo (format, quality, res, encodespeed) {
     
   const fileName = loc.filePath.split('.')[0]
   const fileExt = `.${loc.filePath.split('.')[1]}`
-  let avi, tracker, showProgress, progressbarHandle = null, audio, video, ffmpegoptions, ffmpegProcess
+  let avi, tracker, showProgress, progressbarHandle = null, audio, video, ffmpegoptions
 
   if (fileExt === '.avi') avi = true;
 
@@ -202,11 +202,10 @@ async function downloadvideo (format, quality, res, encodespeed) {
 
   progressbarHandle = setInterval(showProgress, progressbarInterval);
 
-  try {
-    fs.unlinkSync(tempfolder + '/temp' + avi ? '.mkv' : fileExt)
-  } catch (err) {}
-
   const ffmpegstart = function () {
+    try {
+      fs.unlinkSync(`${tempfolder}/temp${avi ? '.mkv' : fileExt}`)
+    } catch (err) {}
     ffmpegProcess = cp.spawn(ffmpeg, ffmpegoptions, {
       windowsHide: true,
       stdio: [
