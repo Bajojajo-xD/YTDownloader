@@ -8,7 +8,7 @@
 
 <hr />
 
-# [🟢 Downloader](#-downloader)
+# 🟢 Downloader
 ## 🟡 Video
 ### 🔵 Video quality
 - **Recommended** download quality is **1080p** or **1080p60**, 
@@ -24,5 +24,5 @@
 - **Recommended** download extension is **mp3**,
 - **M4A** download supported.
 
-# [🟢 Settings](#-settings)
+# 🟢 Settings
 ## 🟡 Updater
