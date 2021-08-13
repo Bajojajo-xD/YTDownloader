@@ -17,7 +17,7 @@
 ### 🔵 Video extension
 - **Recommended** download extension is **mpv**, best quality, best download time, best file size,
 - **MP4** download supported, may cause slightly larger file size,
-- AVI files are **not** recommended, file size is same but video quality falls a lot.
+- AVI files are **not** recommended, it's mpv file renaimed to avi, it works but some players can return error.
 
 ## 🟡 Audio
 - Downloader **automatically** downloads best quality audio,

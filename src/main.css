@@ -104,7 +104,7 @@ div[class=box-1] {
 	outline: none;
 }
 
-#yt-search {
+#wait {
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -145,17 +145,6 @@ div[class=btn-1] {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.hidden-btn {
-  height: 50px;
-  width: 200px;
-  font-size: 30px;
-  border-radius: 15px;
-  border-style: solid;
-  background-color: rgba(255, 255, 255, 0.11);
-  border-width: 2px;
-  border-color: #111;
 }
 
 .btn {

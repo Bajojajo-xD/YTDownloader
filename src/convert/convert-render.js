@@ -90,10 +90,15 @@ mp4button.addEventListener('click', () => {
 })
 
 function downloadvideo (format, quality, res, encodespeed) {
-  ipcRenderer.invoke('askForDownload', `${videoinfo.title}${format === 'audio' ? '.mp3' : '.mkv'}`, format === 'audio' ? [{name: 'MP3 File (recommended)', extensions: ['mp3']}, {name: 'M4A File', extensions: ['m4a']}, {name: 'WAV File (huge size)', extensions: ['wav']}, {name: 'Any File (unsupported)', extensions: ['*']}] : [{name: 'MKV File (recommended)', extensions: ['mkv']}, {name: 'MP4 File', extensions: ['mp4']}, {name: 'AVI File (bad resolution)', extensions: ['avi']}, {name: 'Any File (unsupported)', extensions: ['*']}]).then(async location => {
+  ipcRenderer.invoke('askForDownload', `${videoinfo.title}${format === 'audio' ? '.mp3' : '.mkv'}`, format === 'audio' ? [{name: 'MP3 File (recommended)', extensions: ['mp3']}, {name: 'M4A File', extensions: ['m4a']}, {name: 'WAV File (huge size)', extensions: ['wav']}, {name: 'Any File (unsupported)', extensions: ['*']}] : [{name: 'MKV File (recommended)', extensions: ['mkv']}, {name: 'MP4 File', extensions: ['mp4']}, {name: 'AVI File (mkv => avi)', extensions: ['avi']}, {name: 'Any File (unsupported)', extensions: ['*']}]).then(async location => {
     if (location.canceled) return;
     buttons(true)
-
+    
+    const regex = /^[\w,\s-]+\.[A-Za-z]{3}$/
+    const fileName = location.filePath.split('.')[0].replace(regex, '-')
+    const fileExt = `.${location.filePath.split('.')[1]}`
+    let avi
+    if (fileExt === '.avi') avi = true;
     const tempfolder = await ipcRenderer.invoke('tempFolder')
     const mp3speed = document.getElementById('mp3-download')
     const mp4speed = document.getElementById('mp4-download')
@@ -104,7 +109,7 @@ function downloadvideo (format, quality, res, encodespeed) {
       // Set inputs
       '-i', 'pipe:3',
       // Define output file
-      tempfolder + '/temp.' + location.filePath.split('.')[1]
+      `${tempfolder}/temp${avi ? '.mkv' : fileExt}`
     ]
     
     const ffmpegoptionsvideoencode = [
@@ -119,7 +124,7 @@ function downloadvideo (format, quality, res, encodespeed) {
       // Keep encoding
       '-preset', encodespeed, '-tune', 'fastdecode',
       // Define output file
-      tempfolder + '/temp.' + location.filePath.split('.')[1]
+      `${tempfolder}/temp${avi ? '.mkv' : fileExt}`
     ]
     
     const ffmpegoptionsvideo = [
@@ -134,7 +139,7 @@ function downloadvideo (format, quality, res, encodespeed) {
       // Keep encoding
       '-c:v', 'copy',
       // Define output file
-      tempfolder + '/temp.' + location.filePath.split('.')[1]
+      `${tempfolder}/temp${avi ? '.mkv' : fileExt}`
     ]
 
     let tracker, showProgress, progressbarHandle = null, audio, video, ffmpegoptions
@@ -179,7 +184,7 @@ function downloadvideo (format, quality, res, encodespeed) {
           tracker.video = { downloaded, total };
         });
       
-      if (highRes.some(x => res.includes(x)) || (location.filePath.split('.')[1] !== 'mp4' && location.filePath.split('.')[1] !== 'mkv')) {
+      if (highRes.some(x => res.includes(x)) || (fileExt !== '.mp4' && fileExt !== '.mkv' && !avi)) {
         ffmpegoptions = ffmpegoptionsvideoencode
       } else {
         ffmpegoptions = ffmpegoptionsvideo
@@ -188,7 +193,7 @@ function downloadvideo (format, quality, res, encodespeed) {
 
     progressbarHandle = setInterval(showProgress, progressbarInterval);
     try {
-      fs.unlinkSync(tempfolder + '/temp.' + location.filePath.split('.')[1])
+      fs.unlinkSync(tempfolder + '/temp' + avi ? '.mkv' : fileExt)
     } catch (err) {}
     // Start the ffmpeg child process
     const ffmpegProcess = cp.spawn(ffmpeg, ffmpegoptions, {
@@ -212,8 +217,8 @@ function downloadvideo (format, quality, res, encodespeed) {
       // Cleanup
       clearInterval(progressbarHandle);
       try {
-        fs.copyFileSync(tempfolder + '/temp.' + location.filePath.split('.')[1], location.filePath)
-        fs.unlinkSync(tempfolder + '/temp.' + location.filePath.split('.')[1])
+        fs.copyFileSync(`${tempfolder}/temp${avi ? '.mkv' : fileExt}`, fileName + fileExt)
+        fs.unlinkSync(`${tempfolder}/temp${avi ? '.mkv' : fileExt}`)
       } catch (err) {
         ipcRenderer.invoke('errorDialog', 'Save error', 'Can\'t save, unsupported format')
 
