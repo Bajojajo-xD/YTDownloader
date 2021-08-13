@@ -36,6 +36,19 @@ td {
   text-align: center;
 }
 
+#exit {
+  margin-right: 5px;
+  margin-left: auto;
+  width: 30px;
+  display: block;
+  cursor: pointer;
+  transition: all 1s;
+}
+
+#exit:hover {
+  transform: rotate(-30deg);
+}
+
 #video-img {
   margin-top: 10px;
   height: 150px;

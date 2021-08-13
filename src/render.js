@@ -57,7 +57,7 @@ searchbtn.addEventListener('click', async () => {
 
   yturl.removeAttribute('readonly')
   document.getElementById('wait').classList.add('hidden')
-  await ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 650, 480, false, true, urltoprov)
+  await ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 650, 480, false, false, urltoprov)
 })
 
 function checktype(check) {

@@ -7,6 +7,8 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
   app.quit();
 }
 
+let openedwindows
+
 //mainWindow
 let mainWindow
 const createWindow = () => {
@@ -80,8 +82,8 @@ ipcMain.handle('errorDialog', (e, tit, cont) => {
   return dialog.showErrorBox(tit, cont)
 })
 
-ipcMain.handle('askForDownload', (e, loc, options) => {
-  return dialog.showSaveDialog({title: 'Where to save?', defaultPath: loc, filters: options})
+ipcMain.handle('askForDownload', async (e, loc, options) => {
+  return await dialog.showSaveDialog({title: 'Where to save?', defaultPath: loc, filters: options})
 })
 
 ipcMain.handle('browserWindow', (event, url, h, w, r, f, whatever) => {
