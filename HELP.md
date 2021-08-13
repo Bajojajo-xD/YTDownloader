@@ -1,4 +1,4 @@
-# [🟢 Installer]()
+# [🟢 Installer](#-installer)
 ## 🟡 Windows
 - Download **[latest release](https://github.com/Bajojajo-xD/YTDownloader/releases/latest/download/YTdownloader-Web-Setup.exe)** and install
 
@@ -8,7 +8,7 @@
 
 <hr />
 
-# [🟢 Downloader]()
+# [🟢 Downloader](#-downloader)
 ## 🟡 Video
 ### 🔵 Video quality
 - **Recommended** download quality is **1080p** or **1080p60**, 
@@ -24,5 +24,5 @@
 - **Recommended** download extension is **mp3**,
 - **M4A** download supported.
 
-# [🟢 Settings]()
+# [🟢 Settings](#-settings)
 ## 🟡 Updater
