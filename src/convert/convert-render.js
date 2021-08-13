@@ -8,8 +8,8 @@ const prettyMilliseconds = require("pretty-ms");
 const ytdl = require("ytdl-core");
 const ffmpeg = require('ffmpeg-static').replace('app.asar','app.asar.unpacked');
 
-const mp3button = document.getElementById('mp3')
-const mp4button = document.getElementById('mp4')
+const mp3button = document.getElementById('audio')
+const mp4button = document.getElementById('video')
 const mp4quality = document.getElementById('mp4-quality')
 
 function buttons (hide) {
@@ -86,11 +86,11 @@ mp3button.addEventListener('click', () => {
 
 mp4button.addEventListener('click', () => {
   if (mp3button.classList.contains('hidden')) return;
-  downloadvideo('video', document.getElementById('mp4-quality').value, document.getElementById('mp4-quality').innerHTML,'medium')
+  downloadvideo('video', document.getElementById('mp4-quality').value, document.getElementById('mp4-quality').innerHTML, 'ultrafast')
 })
 
 function downloadvideo (format, quality, res, encodespeed) {
-  ipcRenderer.invoke('askForDownload', videoinfo.title, format === 'audio' ? [{name: 'MP3 File (recommended)', extensions: ['mp3']}, {name: 'WAV File (huge size)', extensions: ['wav']}] : [{name: 'MP4 File (recommended)', extensions: ['mp4']}, {name: 'MKV File (recommended)', extensions: ['mkv']}, {name: 'AVI File (bad resolution)', extensions: ['avi']}]).then(async location => {
+  ipcRenderer.invoke('askForDownload', `${videoinfo.title}${format === 'audio' ? '.mp3' : '.mkv'}`, format === 'audio' ? [{name: 'MP3 File (recommended)', extensions: ['mp3']}, {name: 'M4A File', extensions: ['m4a']}, {name: 'WAV File (huge size)', extensions: ['wav']}, {name: 'Any File (unsupported)', extensions: ['*']}] : [{name: 'MKV File (recommended)', extensions: ['mkv']}, {name: 'MP4 File', extensions: ['mp4']}, {name: 'AVI File (bad resolution)', extensions: ['avi']}, {name: 'Any File (unsupported)', extensions: ['*']}]).then(async location => {
     if (location.canceled) return;
     buttons(true)
 
@@ -142,7 +142,7 @@ function downloadvideo (format, quality, res, encodespeed) {
     if (format === 'audio') {
       tracker = {
         start: Date.now(),
-        audio: { downloaded: 0, total: Infinity },
+        audio: { downloaded: 0, total: 0 },
       }
       showProgress = () => {
         const toMB = i => (i / 1024 / 1024).toFixed(2);
@@ -159,8 +159,8 @@ function downloadvideo (format, quality, res, encodespeed) {
     else {
       tracker = {
         start: Date.now(),
-        audio: { downloaded: 0, total: Infinity },
-        video: { downloaded: 0, total: Infinity },
+        audio: { downloaded: 0, total: 0 },
+        video: { downloaded: 0, total: 0 },
       };
       showProgress = () => {
         const toMB = i => (i / 1024 / 1024).toFixed(2);
@@ -179,7 +179,7 @@ function downloadvideo (format, quality, res, encodespeed) {
           tracker.video = { downloaded, total };
         });
       
-      if (highRes.some(x => res.contains(x)) || location.filePath.split('.')[1] === 'avi') {
+      if (highRes.some(x => res.includes(x)) || (location.filePath.split('.')[1] !== 'mp4' && location.filePath.split('.')[1] !== 'mkv')) {
         ffmpegoptions = ffmpegoptionsvideoencode
       } else {
         ffmpegoptions = ffmpegoptionsvideo
@@ -211,11 +211,20 @@ function downloadvideo (format, quality, res, encodespeed) {
     ffmpegProcess.on('close', () => {
       // Cleanup
       clearInterval(progressbarHandle);
-      fs.copyFileSync(tempfolder + '/temp.' + location.filePath.split('.')[1], location.filePath)
-      fs.unlinkSync(tempfolder + '/temp.' + location.filePath.split('.')[1])
+      try {
+        fs.copyFileSync(tempfolder + '/temp.' + location.filePath.split('.')[1], location.filePath)
+        fs.unlinkSync(tempfolder + '/temp.' + location.filePath.split('.')[1])
+      } catch (err) {
+        ipcRenderer.invoke('errorDialog', 'Save error', 'Can\'t save, unsupported format')
+
+        mp3speed.innerHTML = '';
+        mp4speed.innerHTML = '';
+        buttons()
+        return;
+      }
 
       mp3speed.innerHTML = format === 'video' ? 'Video ready' : 'Audio ready';
-      mp4speed.innerHTML = ''
+      mp4speed.innerHTML = '';
 
       buttons()
     });
@@ -227,5 +236,7 @@ function downloadvideo (format, quality, res, encodespeed) {
 }
 
 const highRes = [
-
+  '4320',
+  '2160',
+  '1440'
 ]

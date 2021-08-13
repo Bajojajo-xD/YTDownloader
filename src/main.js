@@ -76,6 +76,10 @@ ipcMain.handle('tempFolder', () => {
   return app.getPath("cache")
 })
 
+ipcMain.handle('errorDialog', (e, tit, cont) => {
+  return dialog.showErrorBox(tit, cont)
+})
+
 ipcMain.handle('askForDownload', (e, loc, options) => {
   return dialog.showSaveDialog({title: 'Where to save?', defaultPath: loc, filters: options})
 })
