@@ -24,18 +24,41 @@
 
     <br />
 
-    <button class='hidden' id='audio'>Download audio</button>
-    <button class='hidden' id='video'>Download video</button>
+    <table>
+      <td>
+        <select class='hidden' id='audio-format'>
+          <option value='mp3'>🟢 MP3</option>
+          <option value='m4a'>🟢 M4A</option>
+          <option value='wav'>🔴 WAV</option>
+        </select>
+        <button class='hidden' id='audio'>Download audio</button>
+      </td>
+      <td>
+        <select class='hidden' id='video-format'>
+          <option value='mkv'>🟢 MKV</option>
+          <option value='mp4'>🟢 MP4</option>
+          <option value='avi'>🟠 AVI</option>
+        </select>
+
+        <button class='hidden' id='video'>Download video</button>
+      </td>
+    </table>
 
     <br />
     
     <table>
       <td>
         <p class='info' id='mp3-download'></p>
+      </td>
+      <td>
         <p class='info' id='mp4-download'></p>
       </td>
     </table>
-
+    <table>
+      <td>        
+        <p class='info' id='playlist-download'></p>
+      </td>
+    </table>
     <script src="convert-render.js"></script>
   </body>
 </html>

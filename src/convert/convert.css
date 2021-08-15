@@ -12,6 +12,16 @@
     background-color: black;
     border-color: rgb(131, 139, 12);
   }
+  #video-format {
+    color: white;
+    background-color: black;
+    border-color: rgb(12, 42, 139);
+  }
+  #audio-format {
+    color: white;
+    background-color: black;
+    border-color: rgb(12, 42, 139);
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -26,6 +36,12 @@
   #mp4-quality {
     border-color: rgb(243, 207, 87);
   }
+  #video-format {
+    border-color: rgb(26, 235, 43);
+  }
+  #audio-format {
+    border-color: rgb(26, 235, 43);
+  }
 }
 
 table {
@@ -34,6 +50,8 @@ table {
 
 td {
   text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 #exit {
@@ -79,6 +97,16 @@ td {
   font-size: 20px;
 }
 
+#video-format {
+  float: right;
+  margin-right: 25px;
+  border-radius: 15px;
+  width: 130px;
+  height: 40px;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
 #audio {
   float: left;
   margin-left: 15px;
@@ -86,6 +114,16 @@ td {
   width: 150px;
   height: 55px;
   font-size: 20px;
+}
+
+#audio-format {
+  float: left;
+  margin-left: 25px;
+  border-radius: 15px;
+  width: 130px;
+  height: 40px;
+  font-size: 15px;
+  margin-bottom: 20px;
 }
 
 #help {

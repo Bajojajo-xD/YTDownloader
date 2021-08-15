@@ -1,7 +1,9 @@
 const { ipcRenderer } = require("electron");
-const ytdl = require("ytdl-core");
+const ytpl = require('ytpl')
+const ytdl = require('ytdl-core')
 const ytsearch = require('youtube-sr').default
 const sul = require('spotify-url-info')
+
 
 const yturl = document.getElementById('yt-url')
 
@@ -28,36 +30,69 @@ yturl.addEventListener('keydown', async (e) => {
 })
 
 searchbtn.addEventListener('click', async () => {
+  if (yturl.getAttribute('readonly')) return;
   yturl.setAttribute('readonly', true)
   document.getElementById('wait').classList.remove('hidden')
 
   const type = checktype(yturl.value)
+  const info = document.getElementById('waitinfo')
 
-  let urltoprov
+  let urltoprov, isPlaylist
   if (type === 'random') {
+    info.innerHTML = 'Type: RANDOM, Initializing search...'
     const videos = (await ytsearch.homepage()).map(x => x)
-    urltoprov = videos[Math.floor(Math.random()*videos.length)].url
+    urltoprov = [videos[Math.floor(Math.random()*videos.length)].url]
   }
   else if (type === 'video') {
-    urltoprov = yturl.value
+    info.innerHTML = 'Type: VIDEO, Found'
+    urltoprov = [yturl.value]
   }
   else if (type === 'spot-song') {
+    info.innerHTML = 'Type: SPOTIFY SONG, Getting data...'
     const spotinfo = await sul.getData(yturl.value)
-    urltoprov = (await ytsearch.searchOne(spotinfo.name + ' - ' + spotinfo.artists[0].name, "video", true)).url
+    urltoprov = [(await ytsearch.searchOne(spotinfo.name + ' - ' + spotinfo.artists[0].name, "video", true)).url]
   }
   else if (type === 'playlist') {
-    urltoprov = null
+    info.innerHTML = 'Type: YOUTUBE PLAYLIST, Getting data... '
+    const yttracks = await ytpl(yturl.value)
+    isPlaylist = { 'img': yttracks.thumbnail, 'title': yttracks.title, 'type': 'youtube' }
+    let tracks = []
+    for (const yttrack of yttracks.items) {
+      const track = yttrack.url
+      tracks.push(track)
+    }
+    urltoprov = tracks
   }
   else if (type === 'spot-list') {
-    urltoprov = null
+    info.innerHTML = 'Type: SPOTIFY PLAYLIST, Searching... '
+    const spottracks = await sul.getTracks(yturl.value)
+    isPlaylist = { 'title': `Spotify ${spottracks.length} items playlist`, 'type': 'spotify' }
+    let tracks = [], cache = spottracks.length
+    for (const spottrack of spottracks) {
+      info.innerHTML = `Type: SPOTIFY PLAYLIST, Searching... ${spottracks.length - cache}/${spottracks.length}`
+      const track = (await ytsearch.searchOne(spottrack.name + ' - ' + spottrack.artists[0].name, "video", true)).url
+      tracks.push(track)
+      cache = cache - 1
+    }
+    urltoprov = tracks
   }
   else if (type === 'search') {
-    urltoprov = (await ytsearch.searchOne(yturl.value, "video", true)).url
+    info.innerHTML = 'Type: YOUTUBE SEARCH, Searching... '
+    const urltoprovtemp = (await ytsearch.searchOne(yturl.value, "video", true))
+    if (urltoprovtemp) {
+      urltoprov = [urltoprovtemp.url]
+    } else {
+      info.innerHTML = 'NOT FOUND'
+      yturl.removeAttribute('readonly')
+      document.getElementById('wait').classList.add('hidden')
+      return;
+    }
   }
 
   yturl.removeAttribute('readonly')
   document.getElementById('wait').classList.add('hidden')
-  await ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 650, 480, false, false, urltoprov)
+  info.innerHTML = ''
+  await ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 750, 480, false, false, {'videos': urltoprov, 'playlist': isPlaylist})
 })
 
 function checktype(check) {
@@ -65,8 +100,8 @@ function checktype(check) {
   const spotplaylist = /^(?:spotify:|(?:https?:\/\/(?:open|play)\.spotify\.com\/))(?:embed)?\/?(playlist)(?::|\/)((?:[0-9a-zA-Z]){22})/
 
   if (!check) return 'random';
-  else if (ytsearch.validate(check, 'VIDEO_ID') || ytsearch.validate(check, 'VIDEO')) return 'video';
-  else if (ytsearch.validate(check, 'PLAYLIST') || ytsearch.validate(check, 'PLAYLIST_ID')) return 'playlist';
+  else if (ytpl.validateID(check)) return 'playlist';
+  else if (ytdl.validateID(check) || ytdl.validateURL(check)) return 'video';
   else if (spotifysong.test(check)) return 'spot-song';
   else if (spotplaylist.test(check)) return 'spot-list';
   return 'search';

@@ -13,8 +13,14 @@ const mp4button = document.getElementById('video')
 const mp4quality = document.getElementById('mp4-quality')
 const mp3speed = document.getElementById('mp3-download')
 const mp4speed = document.getElementById('mp4-download')
+const playlisthowmany = document.getElementById('playlist-download')
+const vidformat = document.getElementById('video-format')
+const audformat = document.getElementById('audio-format')
 
-function buttons (hide) {
+let yt, cache, dwnldloc, videoinfo
+const saveDirRegex = /[/\\?%*:|"<>]/g
+
+function buttons(hide) {
   if (hide === true) {
     mp4button.classList.remove('button')
     mp4button.classList.add('hidden')
@@ -23,6 +29,8 @@ function buttons (hide) {
     mp4quality.classList.remove('options')
     mp4quality.classList.add('hidden')
     mp4quality.setAttribute('disabled', 'true')
+    vidformat.setAttribute('disabled', 'true')
+    audformat.setAttribute('disabled', 'true')
   }
   else {
     mp3button.classList.remove('hidden')
@@ -32,79 +40,119 @@ function buttons (hide) {
     mp4quality.classList.remove('hidden')
     mp4quality.classList.add('options')
     mp4quality.removeAttribute('disabled')
+    vidformat.removeAttribute('disabled')
+    audformat.removeAttribute('disabled')
   }
 }
 
-let yturl, videoinfo, loc, ffmpegProcess
-ipcRenderer.on('from-other-renderer', async (a, yt) => {
-  yturl = yt 
+ipcRenderer.on('from-other-renderer', async (a, yta) => {
+  yt = yta
+  cache = [...yt.videos];
+  if (!yt.playlist) {
+    try {
+      const video = await ytdl.getInfo(yt.videos[0])
+      const videoFormats = ytdl.filterFormats(video.formats, 'videoonly');
+      let allformats = []
+      for (const videoformat of videoFormats) {
+        allformats.push(videoformat.qualityLabel)
+      }
+      const formats = Array.from(new Set(allformats))
+      videoinfo = video.videoDetails
+      document.getElementById('video-img').src=videoinfo.thumbnails[0].url
+      document.getElementById('video-title').innerHTML=videoinfo.title
+      document.getElementById('video-length').innerHTML=`Length: ${prettyMilliseconds(videoinfo.lengthSeconds * 1000)}`
 
-  const error = function(err) {
-    document.getElementById('video-img').src='../images/error.png'
-    document.getElementById('video-title').innerHTML='Error, cannot parse video'
-    document.getElementById('video-length').innerHTML='Not available'
-    console.log(err)
+      for (const format of formats) {
+        const opt = document.createElement('option')
+        opt.value = videoFormats.find(x => x.qualityLabel === format).itag
+        opt.innerHTML = format
+        opt.classList.add('vidformat')
+        mp4quality.appendChild(opt)
+        if (format.includes('1080p')) {
+          opt.setAttribute('selected', true)
+        }
+      }
+
+      buttons()
+    }
+    catch (err) {
+      document.getElementById('video-img').src='../images/error.png'
+      document.getElementById('video-title').innerHTML='Error, cannot parse video'
+      document.getElementById('video-length').innerHTML='Not available'
+      return;
+    }
+  } 
+  else { 
+    document.getElementById('video-img').src=yt.playlist.img ? yt.playlist.img : (yt.playlist.type === 'spotify' ? '../images/spotify.png' : '../images/youtube.png')
+    document.getElementById('video-title').innerHTML=yt.playlist.title
+    document.getElementById('video-length').innerHTML=`Tracks: ${yt.videos.length}`
+    const high = document.createElement('option')
+    const low = document.createElement('option')
+    high.value = 'highestvideo'
+    high.innerHTML = 'Highest'
+    mp4quality.appendChild(high)
+    low.value = 'lowestvideo'
+    low.innerHTML = 'Lowest'
+    mp4quality.appendChild(low)
+    buttons()
+  }
+})
+
+mp3button.addEventListener('click', async () => {
+  if (mp3button.classList.contains('hidden')) return;
+  format = audformat.value
+  if (!yt.playlist) {
+    dwnldloc = await ipcRenderer.invoke('askForDownload', `${videoinfo.title}.${format}`.replace(saveDirRegex, '-'), [{name: format, extensions: [format]}])
+  } 
+  else {
+    dwnldloc = await ipcRenderer.invoke('askForDownload', yt.playlist.title)
+  }
+
+  if (dwnldloc.canceled) return;
+
+  savelocation = dwnldloc.filePath
+  streamtype = 'audio'
+  dwnld()
+})
+
+mp4button.addEventListener('click', async () => {
+  if (mp4button.classList.contains('hidden')) return;
+  format = vidformat.value
+  if (!yt.playlist) {
+    dwnldloc = await ipcRenderer.invoke('askForDownload', `${videoinfo.title}.${format}`.replace(saveDirRegex, '-'), [{name: format, extensions: [format]}])
+  } 
+  else {
+    dwnldloc = await ipcRenderer.invoke('askForDownload', yt.playlist.title)
+  }
+
+  if (dwnldloc.canceled) return;
+
+  savelocation = dwnldloc.filePath
+  streamtype = 'video'
+  quality = mp4quality.value
+  dwnld()
+})
+
+let savelocation, format, streamtype, quality
+async function dwnld() {
+  playlisthowmany.innerHTML = ''
+  if (!cache) {
+    playlisthowmany.innerHTML = 'Playlist ready';
+    buttons()
     return;
   }
-
-  try {
-    const parseerror = setTimeout(() => {
-      error()
-    }, 10000);
-    const video = await ytdl.getInfo(yt)
-    const videoFormats = ytdl.filterFormats(video.formats, 'videoonly');
-    let allformats = []
-    for (const videoformat of videoFormats) {
-      allformats.push(videoformat.qualityLabel)
-    }
-    const formats = Array.from(new Set(allformats))
-    videoinfo = video.videoDetails
-    document.getElementById('video-img').src=videoinfo.thumbnails[0].url
-    document.getElementById('video-title').innerHTML=videoinfo.title
-    document.getElementById('video-length').innerHTML=`Length: ${prettyMilliseconds(videoinfo.lengthSeconds * 1000)}`
-
-    for (const format of formats) {
-      const opt = document.createElement('option')
-      opt.value = videoFormats.find(x => x.qualityLabel === format).itag
-      opt.innerHTML = format
-      document.getElementById('mp4-quality').appendChild(opt)
-      if (format.includes('1080p')) {
-        opt.setAttribute('selected', true)
-      }
-    }
-
-    buttons()
-    clearTimeout(parseerror);
-  } 
-  catch (err) {
-    error(err)
-  }
-})
-
-mp3button.addEventListener('click', () => {
-  if (mp3button.classList.contains('hidden')) return;
-  downloadvideo('audio')
-})
-
-mp4button.addEventListener('click', () => {
-  if (mp3button.classList.contains('hidden')) return;
-  downloadvideo('video', document.getElementById('mp4-quality').value, document.getElementById('mp4-quality').innerHTML, 'ultrafast')
-})
-
-async function downloadvideo (format, quality, res, encodespeed) {
-
-  loc = await ipcRenderer.invoke('askForDownload', `${videoinfo.title}${format === 'audio' ? '.mp3' : '.mkv'}`, format === 'audio' ? [{name: 'MP3 File (recommended)', extensions: ['mp3']}, {name: 'M4A File', extensions: ['m4a']}, {name: 'WAV File (huge size)', extensions: ['wav']}, {name: 'Any File (unsupported)', extensions: ['*']}] : [{name: 'MKV File (recommended)', extensions: ['mkv']}, {name: 'MP4 File', extensions: ['mp4']}, {name: 'AVI File (mkv => avi)', extensions: ['avi']}, {name: 'Any File (unsupported)', extensions: ['*']}])
-
-  if (loc.canceled) return;
-  mp3speed.removeAttribute('style')
+  let avi, tracker, showProgress, ffmpegoptions, fileName, progressbarHandle, audio, video, ffmpegProcess
   buttons(true)
-    
-  const fileName = loc.filePath.split('.')[0]
-  const fileExt = `.${loc.filePath.split('.')[1]}`
-  let avi, tracker, showProgress, progressbarHandle = null, audio, video, ffmpegoptions
-
+  fileName = savelocation.split('.')[0]
+  const fileExt = `.${format}`
+  if (yt.playlist) {
+    playlisthowmany.innerHTML = `Downloaded ${yt.videos.length - cache.length}/${yt.videos.length}`
+  }
+  const highRes = [
+    '4320',
+    '2160',
+  ]
   if (fileExt === '.avi') avi = true;
-
   const tempfolder = await ipcRenderer.invoke('tempFolder')
 
   const ffmpegoptionsaudio = [
@@ -113,7 +161,7 @@ async function downloadvideo (format, quality, res, encodespeed) {
     // Set inputs
     '-i', 'pipe:3',
     // Define output file
-    `${tempfolder}/temp${avi ? '.mkv' : fileExt}`
+    `${tempfolder}/temp${fileExt}`
   ]
     
   const ffmpegoptionsvideoencode = [
@@ -126,7 +174,7 @@ async function downloadvideo (format, quality, res, encodespeed) {
     '-map', '0:a',
     '-map', '1:v',
     // Keep encoding
-    '-preset', encodespeed, '-tune', 'fastdecode',
+    '-preset', 'ultrafast', '-tune', 'fastdecode',
     // Define output file
     `${tempfolder}/temp${avi ? '.mkv' : fileExt}`
   ]
@@ -147,27 +195,36 @@ async function downloadvideo (format, quality, res, encodespeed) {
   ]
 
   const progressbarInterval = 1000
-  if (format === 'audio') {
+
+  if (streamtype === 'audio') {
+
+    ffmpegoptions = ffmpegoptionsaudio
+
     tracker = {
       start: Date.now(),
       audio: { downloaded: 0, total: 0 },
-    }
+    };
     showProgress = () => {
       const toMB = i => (i / 1024 / 1024).toFixed(2);
       mp3speed.innerHTML = `Audio  | ${(tracker.audio.downloaded / tracker.audio.total * 100).toFixed(2)}% processed (${toMB(tracker.audio.downloaded)}MB of ${toMB(tracker.audio.total)}MB)`;
     };
-    
-    audio = ytdl(yturl, { filter: 'audioonly', quality: 'highestaudio' })
-      .on('progress', (_, downloaded, total) => {
-        if (!ffmpegProcess) {
-          ffmpegstart()
-        }
-        tracker.audio = { downloaded, total };
-      });
-      
-    ffmpegoptions = ffmpegoptionsaudio
-   }
+
+    try {
+      audio = ytdl(cache[0], { quality: 'highestaudio' })
+        .on('progress', (_, downloaded, total) => {
+          tracker.audio = { downloaded, total };
+          if (!ffmpegProcess) {
+            ffmpegstart()
+          }
+        });
+    } catch (err) {
+      dwnld()
+    }
+  }
   else {
+
+    highRes.some(x => mp4quality.innerHTML.includes(x)) ? ffmpegoptions = ffmpegoptionsvideoencode :  ffmpegoptions = ffmpegoptionsvideo
+
     tracker = {
       start: Date.now(),
       audio: { downloaded: 0, total: 0 },
@@ -180,23 +237,24 @@ async function downloadvideo (format, quality, res, encodespeed) {
        // process.stdout.write(`running for: ${((Date.now() - tracker.start) / 1000 / 60).toFixed(2)} Minutes.`);
     };
 
-    audio = ytdl(yturl, { filter: 'audioonly', quality: 'highestaudio' })
-      .on('progress', (_, downloaded, total) => {
-        tracker.audio = { downloaded, total };
-        if (!ffmpegProcess) {
-          ffmpegstart()
-        }
-      });
+    try {
+      audio = ytdl(cache[0], { quality: 'highestaudio' })
+        .on('progress', (_, downloaded, total) => {
+          tracker.audio = { downloaded, total };
+          if (!ffmpegProcess) {
+            ffmpegstart()
+          }
+        });
 
-    video = ytdl(yturl, { quality: quality })
-      .on('progress', (_, downloaded, total) => {
-        tracker.video = { downloaded, total };
-      });
-      
-    if (highRes.some(x => res.includes(x)) || (fileExt !== '.mp4' && fileExt !== '.mkv' && !avi)) {
-      ffmpegoptions = ffmpegoptionsvideoencode
-    } else {
-      ffmpegoptions = ffmpegoptionsvideo
+      video = ytdl(cache[0], { quality: quality })
+        .on('progress', (_, downloaded, total) => {
+          tracker.video = { downloaded, total };
+          if (!ffmpegProcess) {
+            ffmpegstart()
+          }
+        });
+    } catch (err) {
+      dwnld()
     }
   }
 
@@ -218,62 +276,45 @@ async function downloadvideo (format, quality, res, encodespeed) {
     // Link streams
     // FFmpeg creates the transformer streams and we just have to insert / read data
     audio.pipe(ffmpegProcess.stdio[3]);
-    if (format === 'video') {
+    if (streamtype === 'video') {
       video.pipe(ffmpegProcess.stdio[4]);
     }
-  
+
     ffmpegProcess.on('close', async () => {
+      clearInterval(progressbarHandle)
       // Cleanup
-      clearInterval(progressbarHandle);
-      try {
-        await ffmpegProcess.kill()
-      } catch (err) {}
-      try {
-        fs.copyFileSync(`${tempfolder}/temp${avi ? '.mkv' : fileExt}`, fileName + fileExt)
-        fs.unlinkSync(`${tempfolder}/temp${avi ? '.mkv' : fileExt}`)
-      } catch (err) {
-        ipcRenderer.invoke('errorDialog', 'Save error', 'Can\'t save, unsupported format')
-  
-        mp3speed.innerHTML = '';
-        mp4speed.innerHTML = '';
-        buttons()
-        return;
+      if (yt.playlist) {
+        try {fs.mkdirSync(fileName)} catch (err) {} 
+        fileName = savelocation.split('.')[0] + '/' + `${yt.videos.length - cache.length + 1}. ${(await ytdl.getBasicInfo(cache[0])).videoDetails.title.replace(saveDirRegex, '-')}`
       }
-  
-      mp3speed.innerHTML = format === 'video' ? 'Video ready' : 'Audio ready';
-      mp3speed.setAttribute('style', 'color: greenyellow; cursor: pointer')
+      fs.copyFileSync(`${tempfolder}/temp${avi ? '.mkv' : fileExt}`, fileName + fileExt)
+      fs.unlinkSync(`${tempfolder}/temp${avi ? '.mkv' : fileExt}`)
+      mp3speed.innerHTML = '';
       mp4speed.innerHTML = '';
   
-      buttons()
+      if (!yt.playlist) {
+        playlisthowmany.innerHTML = streamtype === 'video' ? 'Video ready' : 'Audio ready';
+        playlisthowmany.setAttribute('style', 'color: greenyellow; cursor: pointer')
+        buttons()
+        return;
+      }    
+      cache.shift()
+      return dwnld()
     });
   }
 }
-
-const highRes = [
-  '4320',
-  '2160',
-]
 
 document.getElementById('help').addEventListener('click', async () => {
   require('electron').shell.openExternal('https://github.com/Bajojajo-xD/YTDownloader/blob/main/HELP.md#-downloader')
 })
 
-mp3speed.addEventListener('click', async () => {
-  if (mp3speed.innerHTML !== 'Video ready' && mp3speed.innerHTML !== 'Audio ready') return;
+playlisthowmany.addEventListener('click', async () => {
+  if (!playlisthowmany.getAttribute('style')) return;
   try {
-    require('electron').shell.openPath(loc.filePath)
+    require('electron').shell.openPath(dwnldloc.filePath)
   } catch (err) {}
 })
 
 document.getElementById('exit').addEventListener('click', async () => {
-  try {
-    await ffmpegProcess.kill()
-    ipcRenderer.invoke('destroyWindow')
-  } catch (err) {
-    ipcRenderer.invoke('destroyWindow')
-  }
-})
-
-process.on('exit', () => {
-  ffmpegProcess.kill()
+  ipcRenderer.invoke('destroyWindow')
 })
