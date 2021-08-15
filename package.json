@@ -5,7 +5,6 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
-    "build": "electron-builder build -wl --publish never",
     "wdeploy": "electron-builder build -w --publish always",
     "ldeploy": "electron-builder build -l --publish always",
     "wtest": "electron-builder build -w --publish never",
