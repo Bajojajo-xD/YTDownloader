@@ -1,12 +1,12 @@
 {
   "name": "yt-downloader",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "YT Downloader build with electron",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
-    "wdeploy": "electron-builder build -w --publish always",
-    "ldeploy": "electron-builder build -l --publish always",
+    "deploy": "electron-builder build -wl --publish always",
+    "build": "electron-builder build -wl --publish never",
     "wtest": "electron-builder build -w --publish never",
     "ltest": "electron-builder build -l --publish never"
   },
@@ -62,7 +62,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.59",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.59",
     "@electron-forge/maker-zip": "^6.0.0-beta.59",
-    "electron": "13.1.9",
+    "electron": "^14.0.0",
     "electron-builder": "^22.11.7"
   }
 }
