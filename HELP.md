@@ -24,6 +24,8 @@
 - **Recommended** download extension is **mp3**,
 - **M4A** download supported.
 
+<hr />
+
 # 🟢 Settings
 - Settings are available under right-top corner gear image
 ## 🟡 Updater
