@@ -48,7 +48,7 @@ function buttons(hide) {
 ipcRenderer.on('from-other-renderer', async (a, yta) => {
   yt = yta
   cache = [...yt.videos];
-  if (!yt.playlist) {
+  if (!yt.playlist && yt.videos[0] !== "fb") {
     try {
       const video = await ytdl.getInfo(yt.videos[0])
       const videoFormats = ytdl.filterFormats(video.formats, 'videoonly');
@@ -82,7 +82,7 @@ ipcRenderer.on('from-other-renderer', async (a, yta) => {
       return;
     }
   } 
-  else { 
+  else if (yt.playlist) { 
     document.getElementById('video-img').src=yt.playlist.img ? yt.playlist.img : (yt.playlist.type === 'spotify' ? '../images/spotify.png' : '../images/youtube.png')
     document.getElementById('video-title').innerHTML=yt.playlist.title
     document.getElementById('video-length').innerHTML=`Tracks: ${yt.videos.length}`
@@ -95,6 +95,12 @@ ipcRenderer.on('from-other-renderer', async (a, yta) => {
     low.innerHTML = 'Lowest'
     mp4quality.appendChild(low)
     buttons()
+  }
+  else {
+    document.getElementById('video-img').src='../images/facebook.png'
+    document.getElementById('video-title').innerHTML='Facebook videos not supported YET'
+    document.getElementById('video-length').innerHTML=`¯\\_(ツ)_/¯`
+    return;
   }
 })
 

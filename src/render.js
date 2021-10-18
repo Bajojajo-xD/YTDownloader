@@ -76,6 +76,10 @@ searchbtn.addEventListener('click', async () => {
     }
     urltoprov = tracks
   }
+  else if (type === 'fb-vid') {
+    info.innerHTML = 'Type: FACEBOOK VIDEO, Getting data...'
+    urltoprov = ["fb"]
+  }
   else if (type === 'search') {
     info.innerHTML = 'Type: YOUTUBE SEARCH, Searching... '
     const urltoprovtemp = (await ytsearch.searchOne(yturl.value, "video", true))
@@ -92,18 +96,20 @@ searchbtn.addEventListener('click', async () => {
   yturl.removeAttribute('readonly')
   document.getElementById('wait').classList.add('hidden')
   info.innerHTML = ''
-  await ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 750, 480, false, false, {'videos': urltoprov, 'playlist': isPlaylist})
+  await ipcRenderer.invoke('browserWindow', __dirname + '/convert/convert.html', 750, 480, false, true, {'videos': urltoprov, 'playlist': isPlaylist})
 })
 
 function checktype(check) {
   const spotifysong = /^(?:spotify:|(?:https?:\/\/(?:open|play)\.spotify\.com\/))(?:embed)?\/?(album|track)(?::|\/)((?:[0-9a-zA-Z]){22})/
   const spotplaylist = /^(?:spotify:|(?:https?:\/\/(?:open|play)\.spotify\.com\/))(?:embed)?\/?(playlist)(?::|\/)((?:[0-9a-zA-Z]){22})/
+  const facebookvideo = /^https?:\/\/www\.facebook\.com.*\/(video(s)?|watch|story)(\.php?|\/).+$/gm
 
   if (!check) return 'random';
   else if (ytpl.validateID(check)) return 'playlist';
   else if (ytdl.validateID(check) || ytdl.validateURL(check)) return 'video';
   else if (spotifysong.test(check)) return 'spot-song';
   else if (spotplaylist.test(check)) return 'spot-list';
+  else if (facebookvideo.test(check)) return 'fb-vid';
   return 'search';
 }
 
