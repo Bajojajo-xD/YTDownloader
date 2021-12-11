@@ -1,6 +1,6 @@
 {
   "name": "yt-downloader",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "YT Downloader build with electron",
   "main": "src/main.js",
   "scripts": {
@@ -49,11 +49,11 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "electron-updater": "^4.3.9",
+    "electron-updater": "^4.6.1",
     "ffmpeg-static": "^4.4.0",
     "pretty-ms": "^7.0.1",
     "spotify-url-info": "^2.2.3",
-    "youtube-sr": "^4.1.9",
+    "youtube-sr": "^4.1.11",
     "ytdl-core": "^4.9.1",
     "ytpl": "^2.2.3"
   },
@@ -61,7 +61,7 @@
     "@electron-forge/cli": "^6.0.0-beta.61",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "electron": "^15.3.0",
-    "electron-builder": "^22.13.1"
+    "electron": "^16.0.4",
+    "electron-builder": "^22.14.5"
   }
 }
