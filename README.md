@@ -1,4 +1,4 @@
-![App Image](main/src/images/icon.ico)
+![App Image](../main/src/images/icon.ico)
 
 # ✨ YTDownloader
 🎉 YT Downloader build with electron
