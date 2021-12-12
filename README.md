@@ -1,5 +1,3 @@
-![App Image](../main/src/images/icon.ico)
-
 # ✨ YTDownloader
 🎉 YT Downloader build with electron
 
@@ -14,17 +12,3 @@
 
 <hr />
 
-## 🟡 Preview
-### 🔵 Main window
-![Main window](../main/preview/main.png)
-### 🔵 Search for video
-![Searching for video](../main/preview/searching.png)
-### 🔵 Settings
-![Settings](../main/preview/settings.png)
-### 🔵 Updater
-#### 🟢 Up to date
-![Downloading update](../main/preview/updater-up-to-date.png)
-#### 🟢 Download
-![Downloading update](../main/preview/updater-download.png)
-#### 🟢 Ready
-![Update ready](../main/preview/updater-ready.png)
