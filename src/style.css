@@ -1,0 +1,168 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300';
+
+@media (prefers-color-scheme: dark) {
+  body { 
+    background:  #333; color: white; 
+  }
+  #yt-url {
+    background-color: black;
+    border-color: rgb(116, 6, 6);
+    color: white;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body { 
+    background:  #ddd; color: black; 
+  }
+  #yt-url {
+    background-color: white;
+    border-color: rgb(21, 172, 16);
+    color: black;
+  }
+}
+
+#settings {
+  margin-right: 5px;
+  margin-left: auto;
+  margin-bottom: 5px;
+  width: 30px;
+  display: block;
+  cursor: pointer;
+  transition: all 1s;
+}
+
+#settings:hover {
+  transform: rotate(60deg);
+}
+
+#title
+{
+  font-size: 300%;
+  font-family: sans-serif;
+  text-align: center;
+  margin-top: -20px;
+  margin-bottom: 0px;
+}
+
+div[class=box-1] {
+  height: 33.33%;
+  width: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 
+========================
+      BUTTON YT
+========================
+*/
+
+@media (prefers-color-scheme: light) {
+  .btn-yt {
+    background: white;
+    color: black;
+    border: 2px solid black;
+    box-shadow: 5px 5px 0 black,
+    -5px -5px 0 black,
+		-5px 5px 0 black,
+		5px -5px 0 black;
+  }
+  .btn-yt:hover {
+    box-shadow: 20px 5px 0 black, -20px -5px 0 black;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-yt {
+    background: black;
+    color: white;
+    border: 2px solid rgb(17, 5, 73);
+    box-shadow: 5px 5px 0 rgb(17, 5, 73),
+    -5px -5px 0 rgb(17, 5, 73),
+		-5px 5px 0 rgb(17, 5, 73),
+		5px -5px 0 rgb(17, 5, 73);
+  }
+  .btn-yt:hover {
+    box-shadow: 20px 5px 0 rgb(17, 5, 73), -20px -5px 0 rgb(17, 5, 73);
+  }
+}
+
+.btn-yt {
+	-webkit-tap-highlight-color: transparent;
+  border-radius: 15px;
+	cursor: pointer;
+  height: 50px;
+  width: 200px;
+	font-size: 20px;
+	font-weight: bold;
+	transition: 500ms ease-in-out;
+}
+
+.btn-yt:focus {
+	outline: none;
+}
+
+#wait {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 20px;
+  height: 100px;
+}
+
+#yt-url {
+  width: 98%;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 15px;
+  border-width: 2px;
+  border-style: solid;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn {
+    background: rgb(10, 6, 71);
+    border-color: rgb(80, 8, 8);
+    color: white;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .btn {
+    background: rgb(109, 218, 133);
+    border-color: rgb(20, 32, 141);
+    color: black;
+  }
+}
+
+#waitinfo {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+div[class=btn-1] {
+  width: 100%; 
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  height: 60px;
+  width: 220px;
+  border-radius: 15px;
+  cursor: pointer;
+  border-width: 2px;
+  border-style: solid;
+  font-size: 35px;
+}
+
+.hidden {
+  visibility: hidden;
+}
