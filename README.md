@@ -1,5 +1,8 @@
 # 🔴 **END OF SUPPORT**
-Repository archived, app replaced by [site](https://github.com/Bajojajo-xD/Video-Downloader)
+
+⚠️⚠️⚠️
+❗**Repository archived, app replaced by [site](https://github.com/Bajojajo-xD/Video-Downloader)**
+⚠️⚠️⚠️
 
 ![App Image](./src/images/icon.ico)
 
